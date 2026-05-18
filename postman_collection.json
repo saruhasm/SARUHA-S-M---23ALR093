@@ -1,0 +1,249 @@
+{
+  "info": {
+    "_postman_id": "campus-notification-system",
+    "name": "Campus Notification System",
+    "description": "API collection for Campus Notification System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Priority Notifications",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Response has success status', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.eql('success');",
+              "});",
+              "pm.test('Data is an array with max 10 items', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.data).to.be.an('array');",
+              "    pm.expect(jsonData.data.length).to.be.at.most(10);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/priority-notifications",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "priority-notifications"
+          ]
+        },
+        "description": "Fetch top 10 notifications sorted by priority and timestamp"
+      },
+      "response": []
+    },
+    {
+      "name": "All Notifications - Page 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Response has pagination', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.pagination).to.exist;",
+              "    pm.expect(jsonData.pagination.page).to.eql(1);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/notifications?limit=10&page=1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "notifications"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "Fetch all notifications with pagination"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by Placement",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('All items are Placement type', function () {",
+              "    var jsonData = pm.response.json();",
+              "    jsonData.data.forEach(function(item) {",
+              "        pm.expect(item.Type).to.eql('Placement');",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/notifications?notification_type=Placement&limit=10",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "notifications"
+          ],
+          "query": [
+            {
+              "key": "notification_type",
+              "value": "Placement"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Fetch only Placement notifications"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by Result",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/notifications?notification_type=Result&limit=10",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "notifications"
+          ],
+          "query": [
+            {
+              "key": "notification_type",
+              "value": "Result"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Fetch only Result notifications"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter by Event",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/notifications?notification_type=Event&limit=10",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "notifications"
+          ],
+          "query": [
+            {
+              "key": "notification_type",
+              "value": "Event"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Fetch only Event notifications"
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Service is running', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.eql('success');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "health"
+          ]
+        },
+        "description": "Check if notification service is running"
+      },
+      "response": []
+    }
+  ]
+}
